@@ -19,13 +19,30 @@ const contacts = (state = initState, action) => {
         pages: Math.ceil(action.phones.count / 5)
       }
 
-
     case 'ON_SEARCH':
       return {
         ...state,
         isSearch: true,
         filterName: action.filter.name,
         filterPhone: action.filter.phone
+      }
+
+    case 'NEXT_PAGE':
+      return {
+        ...state,
+        page: state.page + 1
+      }
+
+    case 'PREVIOUS_PAGE':
+      return {
+        ...state,
+        page: state.page - 1
+      }
+
+    case 'CHANGE_PAGE':
+      return {
+        ...state,
+        page: action.page
       }
 
     case 'LOAD_CONTACT_FAILURE':
