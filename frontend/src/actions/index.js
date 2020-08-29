@@ -8,7 +8,7 @@ const client = new ApolloClient({
    uri: API_URL
 });
 
-// LOAD CONTACT
+// LOAD CONTACTS START
 export const loadContactsSucces = (phones) => ({
    type: 'LOAD_CONTACT_SUCCES',
    phones
@@ -46,4 +46,69 @@ export const loadContacts = (offset = 0, limit = 5) => {
    }
 
 }
+//LOAD CONTACTS END
+
+//SEARCH CONTACTS START
+export const searchContacts = (name, phone, offset = 0, limit = 5) => {
+
+   const searchQuery = gql`
+   query 
+      phones(
+         $name : String!, 
+         $phone: String!
+         $offset : Int!
+         $limit : Int!
+      ){
+         phones(
+         name : $name,
+         phone: $phone,
+         pagination : {
+            offset : $offset,
+            limit : $limit
+         }
+         ){
+         count
+         items{
+            id
+            name
+            phone
+         }
+      }
+   }`;
+
+   return dispatch => {
+      return client.query({
+         query: searchQuery,
+         variables: {
+            name,
+            phone,
+            offset,
+            limit
+         }
+      })
+         .then(function (response) {
+            dispatch(loadContactsSucces(response.data.phones))
+         })
+         .catch(function (error) {
+            console.log(error);
+            dispatch(loadContactsFailure)
+         })
+   }
+
+}
+//SEARCH CONTACTS END
+
+//ON SEARCH
+export const onSearch = (filter) => ({
+   type: 'ON_SEARCH',
+   filter
+})
+
+
+
+
+
+
+
+
 

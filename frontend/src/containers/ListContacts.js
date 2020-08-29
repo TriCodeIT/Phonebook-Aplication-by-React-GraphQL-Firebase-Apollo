@@ -26,8 +26,9 @@ class ContactList extends Component {
         })
 
         return(
-          <table className="thead-dark" style={{ fontSize: "19px"}}>
-            <thead>
+            <div className="contact-list" style={{ fontFamily: "Roboto" }}>
+            <table className="table">
+               <thead className="thead-dark" style={{ fontSize: "19px" }}>
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
@@ -37,8 +38,9 @@ class ContactList extends Component {
             </thead>
             <tbody>
               {nodes}
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+         </div >
         )
       }
     }
