@@ -38,13 +38,13 @@ mutation{
 
 <<<<<< EXECUTE THIS QUERY TO TRY PAGINATION >>>>>>
 
-{
-  phones(pagination: {offset: 0, limit: 5}) {
-    items {
-      id,
-    name,
-    phone
-    }
-    count
-  }
-}
+query{
+      phones(pagination: {offset: 0, limit: 5}) {
+         count
+         items{
+            id
+            name
+            phone
+         }
+      }
+   }
