@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+
 import { connect } from 'react-redux';
+
 import { offUpdateContact, updateContact } from '../actions';
 
 class EditForm extends Component {
@@ -11,7 +13,9 @@ class EditForm extends Component {
             phone: this.props.phone
         }
         this.handleChange = this.handleChange.bind(this);
+
         this.handleSubmit = this.handleSubmit.bind(this);
+        
         this.handleCancel = this.handleCancel.bind(this);
     }
 
@@ -46,6 +50,7 @@ class EditForm extends Component {
                 <div className="col-md-10 ">
                     <th scope="row">{this.props.index}</th>
                 </div>
+
                 <td>
                     <div className="col-md-8 ">
                         <form className="form-row" onSubmit={this.handleSubmit}>
@@ -53,6 +58,7 @@ class EditForm extends Component {
                         </form>
                     </div>
                 </td>
+
                 <td>
                 <div className="col-md-8 ">
                         <form className="form-row" onSubmit={this.handleSubmit}>
@@ -60,8 +66,10 @@ class EditForm extends Component {
                         </form>
                     </div>
                 </td>
+
                 <td>
                     <button type="submit" className="btn  mr-2" onClick={this.handleSubmit}><i className="fas fa-check"></i> Save</button>
+
                     <button type="button" className="btn " onClick={this.handleCancel}><i className="fas fa-times"></i> Cancel</button>
                 </td>
             </tr>

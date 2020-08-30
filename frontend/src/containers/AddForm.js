@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+
 import { connect } from 'react-redux';
+
 import { postContact } from '../actions';
 
 class AddForm extends Component {
@@ -11,7 +13,9 @@ class AddForm extends Component {
             phone: ''
         }
         this.handleChange = this.handleChange.bind(this);
+
         this.handleSubmit = this.handleSubmit.bind(this);
+        
         this.handleCancel = this.handleCancel.bind(this);
     }
 
@@ -46,6 +50,7 @@ class AddForm extends Component {
             </button>
 
                 <div className="collapse mb-3" id="add-collapse">
+
                     <div className="card card-body">
                         <form onSubmit={this.handleSubmit}>
                             <div className="form-group">
@@ -62,6 +67,7 @@ class AddForm extends Component {
                                             onChange={this.handleChange}
                                         />
                                     </div>
+
                                     <div className="col">
                                         <label><b>Phone</b></label>
                                         <input
@@ -78,6 +84,7 @@ class AddForm extends Component {
                             </div>
 
                             <div className="row d-flex justify-content-end" >
+
                                 <button type="submit" className="btn btn-outline-success d-flex">
                                     <i className="fas fa-plus"> Save</i>
                                 </button>
@@ -85,6 +92,7 @@ class AddForm extends Component {
                                 <button type="submit" className="btn btn-outline-warning d-flex ml-2 mr-3" onClick={this.handleCancel}>
                                     <i className="fas fa-ban"> Cancel</i>
                                 </button>
+
                             </div>
                         </form>
 

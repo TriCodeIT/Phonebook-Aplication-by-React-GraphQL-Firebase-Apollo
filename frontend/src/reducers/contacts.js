@@ -89,6 +89,7 @@ const contacts = (state = initState, action) => {
       }
 
 
+
     case 'ON_UPDATE_CONTACT':
       return {
         ...state,
@@ -111,30 +112,29 @@ const contacts = (state = initState, action) => {
         })
       }
 
-    case 'POST_CONTACT':
-      return {
-        ...state,
-        contacts: [
-          ...state.contacts,
-          {
-            id: action.id,
-            name: action.name,
-            phone: action.phone,
-            sent: true
-          }
-        ]
-      }
-
-    case 'POST_CONTACT_SUCCESS':
+    case 'UPDATE_CONTACT':
       return {
         ...state,
         contacts: state.contacts.map(item => {
-          item.sent = true;
+          if (item.id === action.id) {
+            item.name = action.name;
+            item.phone = action.phone;
+          }
           return item
         })
       }
 
-    case 'POST_CONTACT_FAILURE':
+    case 'UPDATE_CONTACT_SUCCESS':
+      return {
+        ...state,
+        contacts: state.contacts.map(item => {
+          item.sent = true;
+          item.isEditing = false;
+          return item
+        })
+      }
+
+    case 'UPDATE_CONTACT_FAILURE':
       return {
         ...state,
         contacts: state.contacts.map((item) => {
@@ -144,6 +144,7 @@ const contacts = (state = initState, action) => {
           return item
         })
       }
+
 
 
 

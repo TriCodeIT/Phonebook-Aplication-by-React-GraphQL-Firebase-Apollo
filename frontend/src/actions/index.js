@@ -241,61 +241,60 @@ export const resendContact = (id, name, phone) => {
 
 
 
-//START UPDATE CONTACT DATA
+//START DELETE CONTACT 
 
-const updateContactRedux = (id) => ({
-   type: 'UPDATE_CONTACT',
-   id
+export const deleteContactRedux = (id) => ({
+   type: 'DELETE_CONTACT', id
 })
 
-export const updateContactSuccess = (id) => ({
-   type: 'UPDATE_CONTACT_SUCCESS',
-   id
+const deleteContactSuccess = (id) => ({
+   type: 'DELETE_CONTACT_SUCCESS', id
 })
 
-export const updateContactFailure = () => ({
-   type: 'UPDATE_CONTACT_FAILURE'
+const deleteContactFailure = () => ({
+   type: 'DELETE_CONTACT_FAILURE'
 })
 
-export const updateContact = (id) => {
-   const updateQuery = gql`
-   mutation updateContact($id: ID!) {
-     updateContact(id: $id) {
-       id
-     }
+export const deleteContact = (id) => {
+   const deleteQuery = gql`
+   mutation deleteContact($id: ID!){
+      deleteContact(id: $id){
+         id
+      }
    }`;
    return dispatch => {
       Swal.fire({
          icon: 'warning',
-         title: "Are you sure update this Contact?",
+         title: "Are you sure delete this Contact?",
          text: "You can't revert this action",
          type: "warning",
          showCancelButton: true,
-         confirmButtonText: "Yes Delete Contact!",
-         cancelButtonText: "No, Keep Contact!",
+         confirmButtonText: "Yes Delete it!",
+         cancelButtonText: "No, Keep it!",
          showCloseButton: true,
          showLoaderOnConfirm: true
       }).then(result => {
          if (result.value) {
-            dispatch(updateContactRedux(id))
+            dispatch(deleteContactRedux(id));
             return client.mutate({
-               mutation: updateQuery,
+               mutation: deleteQuery,
                variables: {
                   id
                }
             })
                .then(function (response) {
-                  dispatch(updateContactSuccess(response))
+                  dispatch(deleteContactSuccess(response))
                })
                .catch(function (error) {
-                  dispatch(updateContactFailure())
-               });
+                  dispatch(deleteContactFailure())
+
+               })
          }
       })
    }
 }
 
-//UPDATE CONTACT DATA END
+//START DELETE CONTACT
 
 
 
@@ -332,13 +331,14 @@ export const updateContact = (id, name, phone) => {
    return dispatch => {
       dispatch(updateContactRedux(id, name, phone));
       const updateQuery = gql`
-      mutation updateContact ($id: ID!, $name: String!, $phone: $String!) {
-         updateContact (id: $id, name: $name, phone: $phone) {
-            id
-           name
-           phone
-         }
-       }`;
+      mutation updateContact($id: ID!, $name: String!, $phone: String!) {
+        updateContact(id: $id, name: $name, phone: $phone ) {
+          id
+          name
+          phone
+        }
+      }
+    `;
 
       return client.mutate({
          mutation: updateQuery,

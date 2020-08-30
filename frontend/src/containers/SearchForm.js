@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+
 import { connect } from 'react-redux';
+
 import { searchContacts, loadContacts, onSearch } from '../actions';
 
 class SearchForm extends Component {
@@ -12,12 +14,15 @@ class SearchForm extends Component {
         }
 
         this.handleChangeName = this.handleChangeName.bind(this);
+
         this.handleChangePhone = this.handleChangePhone.bind(this);
+        
         this.handleReset = this.handleReset.bind(this);
     }
 
     handleChangeName(event) {
         let { phone } = this.state
+        
         this.setState({ name: event.target.value })
         this.props.searchContacts(event.target.value, phone)
         this.props.onSearch({ name: event.target.value, phone: phone })
@@ -25,6 +30,7 @@ class SearchForm extends Component {
 
     handleChangePhone(event) {
         let { name } = this.state
+
         this.setState({ phone: event.target.value })
         this.props.searchContacts(name, event.target.value)
         this.props.onSearch({ name: name, phone: event.target.value })
@@ -38,6 +44,7 @@ class SearchForm extends Component {
 
     render() {
         return (
+
             <div className="card mb-3">
                 <div className="card-header" style={{ fontSize: "23px" }}>
                     Search Contact
@@ -74,9 +81,11 @@ class SearchForm extends Component {
                                     name="phone"
                                 />
                             </div>
+
                             <div className="col-md-2">
                                 <button className="btn btn-outline-secondary" onClick={this.handleReset}><i className="fas fa-sync-alt"></i> Reset</button>
                             </div>
+
                         </div>
                     </form>
                 </div>

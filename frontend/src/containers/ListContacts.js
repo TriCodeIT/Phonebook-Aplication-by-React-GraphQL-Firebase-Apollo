@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 
 import { loadContacts } from '../actions';
 
+import EditForm from '../containers/EditForm'
+
 class ContactList extends Component {
 
   componentDidMount() {
@@ -14,19 +16,34 @@ class ContactList extends Component {
 
   render() {
     const nodes = this.props.contacts.map((item, index) => {
-      return (
-        <Contact
-          key={index}
-          index={this.props.page === 1 ? index + 1 : (this.props.page - 1) * 5 + (index + 1)}
-          id={item.id}
-          name={item.name}
-          phone={item.phone}
-          sent={item.sent}
-        />)
+      return item.isEditing ?
+        (
+          <EditForm
+            key={index}
+            index={this.props.page === 1 ? index + 1 : (this.props.page - 1) * 5 + (index + 1)}
+            id={item.id}
+            name={item.name}
+            phone={item.phone}
+            sent={item.sent}
+            edit={item.isEditing}
+          />
+        )
+        : (
+          <Contact
+            key={index}
+            index={this.props.page === 1 ? index + 1 : (this.props.page - 1) * 5 + (index + 1)}
+            id={item.id}
+            name={item.name}
+            phone={item.phone}
+            sent={item.sent}
+            edit={item.isEditing}
+          />
+        )
     })
 
     return (
       <div className="contact-list" style={{ fontFamily: "Roboto" }}>
+
         <table className="table">
           <thead className="thead-dark" style={{ fontSize: "19px" }}>
             <tr>
@@ -40,6 +57,7 @@ class ContactList extends Component {
             {nodes}
           </tbody>
         </table>
+
       </div >
     )
   }

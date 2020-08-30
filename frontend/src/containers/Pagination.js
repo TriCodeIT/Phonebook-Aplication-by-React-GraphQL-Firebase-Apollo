@@ -4,18 +4,22 @@ import { loadContacts, nextPage, previousPage, changePage, searchContacts } from
 
 class Pagination extends Component {
    constructor(props) {
+
       super(props);
       this.state = {
          limit: 5
       }
-      this.handleNext = this.handleNext.bind(this);
       this.handlePrevious = this.handlePrevious.bind(this);
+
+      this.handleNext = this.handleNext.bind(this);
+     
       this.handlePage = this.handlePage.bind(this);
    }
 
    handlePrevious(event) {
       const { limit } = this.state;
       let offset = ((this.props.page - 1) - 1) * limit
+
       if (this.props.isSearch) {
          this.props.searchContacts(this.props.filterName, this.props.filterPhone, offset, limit);
       } else {
@@ -28,6 +32,7 @@ class Pagination extends Component {
    handleNext(event) {
       const { limit } = this.state;
       let offset = ((this.props.page + 1) - 1) * limit;
+
       if (this.props.isSearch) {
          this.props.searchContacts(this.props.filterName, this.props.filterPhone, offset, limit);
       } else {
@@ -41,6 +46,7 @@ class Pagination extends Component {
       const { limit } = this.state;
       const page = parseInt(event.target.id);
       const offset = (page - 1) * this.state.limit;
+
       if (this.props.isSearch) {
          this.props.searchContacts(this.props.filterName, this.props.filterPhone, offset, limit);
       } else {
@@ -54,6 +60,7 @@ class Pagination extends Component {
       return (
          <nav aria-label="Page navigation example" >
             <ul className="pagination justify-content-center">
+
                <li className={this.props.page === 1 ? "page-item disabled" : "page-item"}>
                   <a className="page-link" href="/#" onClick={this.handlePrevious}>Previous</a>
                </li>
@@ -67,6 +74,7 @@ class Pagination extends Component {
                <li className={this.props.page === this.props.pages ? "page-item disabled" : "page-item"}>
                   <a className="page-link" href="/#" onClick={this.handleNext}>Next</a>
                </li>
+
             </ul>
          </nav >
       )
