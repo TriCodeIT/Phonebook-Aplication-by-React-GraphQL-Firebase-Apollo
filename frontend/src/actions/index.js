@@ -10,6 +10,7 @@ const client = new ApolloClient({
 });
 
 // LOAD CONTACTS START
+
 export const loadContactsSuccess = (phones) => ({
    type: 'LOAD_CONTACT_SUCCESS',
    phones
@@ -45,10 +46,12 @@ export const loadContacts = (offset = 0, limit = 5) => {
          })
    }
 }
+
 //LOAD CONTACTS END
 
 
 //SEARCH CONTACTS START
+
 export const searchContacts = (name, phone, offset = 0, limit = 5) => {
 
    const searchQuery = gql`
@@ -96,16 +99,19 @@ export const searchContacts = (name, phone, offset = 0, limit = 5) => {
    }
 
 }
+
 //SEARCH CONTACTS END
 
 
 //ON SEARCH
+
 export const onSearch = (filter) => ({
    type: 'ON_SEARCH',
    filter
 })
 
 //PAGINATION ACTIONS START
+
 export const previousPage = () => ({
    type: 'PREVIOUS_PAGE'
 })
@@ -118,11 +124,13 @@ export const changePage = (page) => ({
 export const nextPage = () => ({
    type: 'NEXT_PAGE'
 })
+
 //PAGINATION ACTIONS END
 
 
 
 //START POST CONTATCTS
+
 const postContactSuccess = (contact) => ({
    type: 'POST_CONTACT_SUCCESS',
    contact
@@ -182,11 +190,13 @@ export const postContact = (name, phone) => {
    }
 
 }
+
 //POST CONTATCTS END
 
 
 
 //START RESEND CONTACT
+
 export const resendContact = (id, name, phone) => {
    const addQuery = gql`
         mutation addContact($id: ID!, $name: String!, $phone: String!) {
@@ -226,36 +236,38 @@ export const resendContact = (id, name, phone) => {
          })
    }
 }
+
 //RESEND CONTACT END
 
 
 
-//START DELETE CONTACT DATA
-const deleteContactRedux = (id) => ({
-   type: 'DELETE_CONTACT',
+//START UPDATE CONTACT DATA
+
+const updateContactRedux = (id) => ({
+   type: 'UPDATE_CONTACT',
    id
 })
 
-export const deleteContactSuccess = (id) => ({
-   type: 'DELETE_CONTACT_SUCCESS',
+export const updateContactSuccess = (id) => ({
+   type: 'UPDATE_CONTACT_SUCCESS',
    id
 })
 
-export const deleteContactFailure = () => ({
-   type: 'DELETE_CONTACT_FAILURE'
+export const updateContactFailure = () => ({
+   type: 'UPDATE_CONTACT_FAILURE'
 })
 
-export const deleteContact = (id) => {
-   const deleteQuery = gql`
-   mutation deleteContact($id: ID!) {
-     deleteContact(id: $id) {
+export const updateContact = (id) => {
+   const updateQuery = gql`
+   mutation updateContact($id: ID!) {
+     updateContact(id: $id) {
        id
      }
    }`;
    return dispatch => {
       Swal.fire({
          icon: 'warning',
-         title: "Are you sure delete this Contact?",
+         title: "Are you sure update this Contact?",
          text: "You can't revert this action",
          type: "warning",
          showCancelButton: true,
@@ -265,24 +277,100 @@ export const deleteContact = (id) => {
          showLoaderOnConfirm: true
       }).then(result => {
          if (result.value) {
-            dispatch(deleteContactRedux(id))
+            dispatch(updateContactRedux(id))
             return client.mutate({
-               mutation: deleteQuery,
+               mutation: updateQuery,
                variables: {
                   id
                }
             })
                .then(function (response) {
-                  dispatch(deleteContactSuccess(response))
+                  dispatch(updateContactSuccess(response))
                })
                .catch(function (error) {
-                  dispatch(deleteContactFailure())
+                  dispatch(updateContactFailure())
                });
          }
       })
    }
 }
-//DELETE CONTACT DATA END
+
+//UPDATE CONTACT DATA END
+
+
+
+//START EDIT CONTACT DATA
+
+export const onUpdateContact = (id) => ({
+   type: 'ON_UPDATE_CONTACT',
+   id
+})
+
+export const offUpdateContact = (id) => ({
+   type: 'OFF_UPDATE_CONTACT',
+   id
+})
+
+const updateContactSuccess = (contact) => ({
+   type: 'UPDATE_CONTACT_SUCCESS',
+   contact
+})
+
+const updateContactFailure = (id) => ({
+   type: 'UPDATE_CONTACT_FAILURE',
+   id
+})
+
+const updateContactRedux = (id, name, phone) => ({
+   type: 'UPDATE_CONTACT', 
+   id,
+   name,
+   phone
+})
+
+export const updateContact = (id, name, phone) => {
+   return dispatch => {
+      dispatch(updateContactRedux(id, name, phone));
+      const updateQuery = gql`
+      mutation updateContact ($id: ID!, $name: String!, $phone: $String!) {
+         updateContact (id: $id, name: $name, phone: $phone) {
+            id
+           name
+           phone
+         }
+       }`;
+
+      return client.mutate({
+         mutation: updateQuery,
+         variables: {
+            id,
+            name,
+            phone
+         }
+      })
+         .then(function (response) {
+            Swal.fire({
+               position: 'center',
+               icon: 'success',
+               title: 'Contact updated successfully!',
+               showConfirmButton: false,
+               timer: 1200
+            })
+            dispatch(updateContactSuccess(response.data.updateContact))
+         })
+         .catch(function (error) {
+            Swal.fire({
+               icon: 'error',
+               title: 'There is a problem',
+               text: 'Something went wrong! check your connection',
+               showConfirmButton: true
+            })
+            dispatch(updateContactFailure(id))
+         });
+   }
+}
+
+//EDIT CONTACT DATA END
 
 
 

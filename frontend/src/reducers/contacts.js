@@ -54,39 +54,97 @@ const contacts = (state = initState, action) => {
 
 
 
-      case 'POST_CONTACT':
-        return {
-           ...state,
-           contacts: [
-              ...state.contacts,
-              {
-                 id: action.id,
-                 name: action.name,
-                 phone: action.phone,
-                 sent: true
-              }
-           ]
-        }
+    case 'POST_CONTACT':
+      return {
+        ...state,
+        contacts: [
+          ...state.contacts,
+          {
+            id: action.id,
+            name: action.name,
+            phone: action.phone,
+            sent: true
+          }
+        ]
+      }
 
-     case 'POST_CONTACT_SUCCESS':
-        return {
-           ...state,
-           contacts: state.contacts.map(item => {
-              item.sent = true;
-              return item
-           })
-        }
+    case 'POST_CONTACT_SUCCESS':
+      return {
+        ...state,
+        contacts: state.contacts.map(item => {
+          item.sent = true;
+          return item
+        })
+      }
 
-     case 'POST_CONTACT_FAILURE':
-        return {
-           ...state,
-           contacts: state.contacts.map((item) => {
-              if (item.id === action.id) {
-                 item.sent = false;
-              }
-              return item
-           })
-        }
+    case 'POST_CONTACT_FAILURE':
+      return {
+        ...state,
+        contacts: state.contacts.map((item) => {
+          if (item.id === action.id) {
+            item.sent = false;
+          }
+          return item
+        })
+      }
+
+
+    case 'ON_UPDATE_CONTACT':
+      return {
+        ...state,
+        contacts: state.contacts.map((item) => {
+          if (item.id === action.id) {
+            item.isEditing = true;
+          }
+          return item
+        })
+      }
+
+    case 'OFF_UPDATE_CONTACT':
+      return {
+        ...state,
+        contacts: state.contacts.map((item) => {
+          if (item.id === action.id) {
+            item.isEditing = false;
+          }
+          return item
+        })
+      }
+
+    case 'POST_CONTACT':
+      return {
+        ...state,
+        contacts: [
+          ...state.contacts,
+          {
+            id: action.id,
+            name: action.name,
+            phone: action.phone,
+            sent: true
+          }
+        ]
+      }
+
+    case 'POST_CONTACT_SUCCESS':
+      return {
+        ...state,
+        contacts: state.contacts.map(item => {
+          item.sent = true;
+          return item
+        })
+      }
+
+    case 'POST_CONTACT_FAILURE':
+      return {
+        ...state,
+        contacts: state.contacts.map((item) => {
+          if (item.id === action.id) {
+            item.sent = false;
+          }
+          return item
+        })
+      }
+
 
 
     case 'DELETE_CONTACT':
