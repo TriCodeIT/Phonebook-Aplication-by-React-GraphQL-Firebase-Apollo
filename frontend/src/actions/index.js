@@ -1,5 +1,8 @@
 import ApolloClient from 'apollo-boost';
+
 import gql from 'graphql-tag';
+
+import Swal from 'sweetalert2';
 
 const API_URL = 'http://localhost:3001/graphql/';
 const client = new ApolloClient({
@@ -43,6 +46,7 @@ export const loadContacts = (offset = 0, limit = 5) => {
    }
 }
 //LOAD CONTACTS END
+
 
 //SEARCH CONTACTS START
 export const searchContacts = (name, phone, offset = 0, limit = 5) => {
@@ -94,6 +98,7 @@ export const searchContacts = (name, phone, offset = 0, limit = 5) => {
 }
 //SEARCH CONTACTS END
 
+
 //ON SEARCH
 export const onSearch = (filter) => ({
    type: 'ON_SEARCH',
@@ -114,6 +119,112 @@ export const nextPage = () => ({
    type: 'NEXT_PAGE'
 })
 //PAGINATION ACTIONS END
+
+
+
+//START POST CONTATCTS
+const postContactSuccess = (contact) => ({
+   type: 'POST_CONTACT_SUCCESS',
+   contact
+})
+
+const postContactFailure = (id) => ({
+   type: 'POST_CONTACT_FAILURE',
+   id
+})
+
+const postContactRedux = (id, name, phone) => ({
+   type: 'POST_CONTACT',
+   id, name, phone
+})
+
+export const postContact = (name, phone) => {
+   const id = new Date().getTime();
+   const addQuery = gql`
+        mutation addContact($id: ID!, $name: String!, $phone: String!) {
+            addContact(id: $id, name: $name, phone: $phone) {
+                id
+                name
+                phone
+            }
+        }`;
+
+   return dispatch => {
+      dispatch(postContactRedux(id, name, phone));
+
+      return client.mutate({
+         mutation: addQuery,
+         variables: {
+            id,
+            name,
+            phone
+         }
+      })
+         .then(function (response) {
+            Swal.fire({
+               position: 'center',
+               icon: 'success',
+               title: 'Contact added successfully!',
+               showConfirmButton: false,
+               timer: 1200
+            })
+            dispatch(postContactSuccess(response.data.addContact))
+         })
+         .catch(function (error) {
+            Swal.fire({
+               icon: 'error',
+               title: 'Oops...',
+               text: 'Something went wrong! check your connection',
+               showConfirmButton: true
+            })
+            dispatch(postContactFailure(id))
+         })
+   }
+
+}
+//POST CONTATCTS END
+
+//START RESEND CONTACT
+export const resendContact = (id, name, phone) => {
+   const addQuery = gql`
+        mutation addContact($id: ID!, $name: String!, $phone: String!) {
+            addContact(id: $id, name: $name, phone: $phone) {
+                id
+                name
+                phone
+            }
+        }`;
+   return dispatch => {
+      return client.mutate({
+         mutation: addQuery,
+         variables: {
+            id,
+            name,
+            phone
+         }
+      })
+         .then(function (response) {
+            Swal.fire({
+               position: 'center',
+               icon: 'success',
+               title: 'Contact added successfully!',
+               showConfirmButton: false,
+               timer: 1000
+            })
+            dispatch(postContactSuccess(response.data.addContact))
+         })
+         .catch(function (error) {
+            Swal.fire({
+               icon: 'error',
+               title: 'Oops...',
+               text: 'Something went wrong! check your connection',
+               showConfirmButton: true
+            })
+            dispatch(postContactFailure(id))
+         })
+   }
+}
+//RESEND CONTACT END
 
 
 
