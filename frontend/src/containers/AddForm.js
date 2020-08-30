@@ -45,7 +45,7 @@ class AddForm extends Component {
     render() {
         return (
             <div>
-                <button id="btn-collapse" className="btn btn-outline-primary ml-3 mb-3 d-flex" type="button" data-toggle="collapse" data-target="#add-collapse" aria-expanded="false" aria-controls="add-collapse">
+                <button id="btn-collapse" className="btn btn-primary btn-lg ml-3 mb-3 d-flex" type="button" data-toggle="collapse" data-target="#add-collapse" aria-expanded="false" aria-controls="add-collapse">
                     Add New Contact
             </button>
 
@@ -85,11 +85,11 @@ class AddForm extends Component {
 
                             <div className="row d-flex justify-content-end" >
 
-                                <button type="submit" className="btn btn-outline-success d-flex">
+                                <button type="submit" className="btn btn-success d-flex">
                                     <i className="fas fa-plus"> Save</i>
                                 </button>
 
-                                <button type="submit" className="btn btn-outline-warning d-flex ml-2 mr-3" onClick={this.handleCancel}>
+                                <button type="submit" className="btn btn-warning d-flex ml-2 mr-3" onClick={this.handleCancel}>
                                     <i className="fas fa-ban"> Cancel</i>
                                 </button>
 

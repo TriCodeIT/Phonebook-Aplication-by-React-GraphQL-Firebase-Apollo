@@ -16,7 +16,7 @@ class SearchForm extends Component {
         this.handleChangeName = this.handleChangeName.bind(this);
 
         this.handleChangePhone = this.handleChangePhone.bind(this);
-        
+
         this.handleReset = this.handleReset.bind(this);
     }
 
@@ -83,7 +83,7 @@ class SearchForm extends Component {
                             </div>
 
                             <div className="col-md-2">
-                                <button className="btn btn-outline-secondary" onClick={this.handleReset}><i className="fas fa-sync-alt"></i> Reset</button>
+                                <button className="btn btn-info" onClick={this.handleReset}><i className="fas fa-sync-alt"></i> Reset</button>
                             </div>
 
                         </div>

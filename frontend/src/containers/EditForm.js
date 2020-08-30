@@ -15,7 +15,7 @@ class EditForm extends Component {
         this.handleChange = this.handleChange.bind(this);
 
         this.handleSubmit = this.handleSubmit.bind(this);
-        
+
         this.handleCancel = this.handleCancel.bind(this);
     }
 
@@ -68,9 +68,9 @@ class EditForm extends Component {
                 </td>
 
                 <td>
-                    <button type="submit" className="btn  mr-2" onClick={this.handleSubmit}><i className="fas fa-check"></i> Save</button>
+                    <button type="submit" className="btn btn-success  mr-2" onClick={this.handleSubmit}><i className="fas fa-check"></i> Save</button>
 
-                    <button type="button" className="btn " onClick={this.handleCancel}><i className="fas fa-times"></i> Cancel</button>
+                    <button type="button" className="btn btn-warning " onClick={this.handleCancel}><i className="fas fa-times"></i> Cancel</button>
                 </td>
             </tr>
 
