@@ -184,6 +184,8 @@ export const postContact = (name, phone) => {
 }
 //POST CONTATCTS END
 
+
+
 //START RESEND CONTACT
 export const resendContact = (id, name, phone) => {
    const addQuery = gql`
@@ -216,7 +218,7 @@ export const resendContact = (id, name, phone) => {
          .catch(function (error) {
             Swal.fire({
                icon: 'error',
-               title: 'Oops...',
+               title: 'There is a problem',
                text: 'Something went wrong! check your connection',
                showConfirmButton: true
             })
@@ -225,6 +227,62 @@ export const resendContact = (id, name, phone) => {
    }
 }
 //RESEND CONTACT END
+
+
+
+//START DELETE CONTACT DATA
+const deleteContactRedux = (id) => ({
+   type: 'DELETE_CONTACT',
+   id
+})
+
+export const deleteContactSuccess = (id) => ({
+   type: 'DELETE_CONTACT_SUCCESS',
+   id
+})
+
+export const deleteContactFailure = () => ({
+   type: 'DELETE_CONTACT_FAILURE'
+})
+
+export const deleteContact = (id) => {
+   const deleteQuery = gql`
+   mutation deleteContact($id: ID!) {
+     deleteContact(id: $id) {
+       id
+     }
+   }`;
+   return dispatch => {
+      Swal.fire({
+         icon: 'warning',
+         title: "Are you sure delete this Contact?",
+         text: "You can't revert this action",
+         type: "warning",
+         showCancelButton: true,
+         confirmButtonText: "Yes Delete Contact!",
+         cancelButtonText: "No, Keep Contact!",
+         showCloseButton: true,
+         showLoaderOnConfirm: true
+      }).then(result => {
+         if (result.value) {
+            dispatch(deleteContactRedux(id))
+            return client.mutate({
+               mutation: deleteQuery,
+               variables: {
+                  id
+               }
+            })
+               .then(function (response) {
+                  dispatch(deleteContactSuccess(response))
+               })
+               .catch(function (error) {
+                  dispatch(deleteContactFailure())
+               });
+         }
+      })
+   }
+}
+//DELETE CONTACT DATA END
 
 
 

@@ -89,8 +89,17 @@ const contacts = (state = initState, action) => {
         }
 
 
+    case 'DELETE_CONTACT':
+      return {
+        ...state,
+        contacts: state.contacts.filter((item) => item.id !== action.id)
+      }
+
+    case 'DELETE_CONTACT_SUCCES':
+      return state
 
     case 'LOAD_CONTACT_FAILURE':
+    case 'DELETE_CONTACT_FAILURE':
     default:
       return state
   }
